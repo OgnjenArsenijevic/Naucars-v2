@@ -1,0 +1,46 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <form method="GET" data-parsley-validate data-parsley-excluded="input[type=file], [disabled]" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb=4">
+                Search Ads
+            </legend>
+            {{ filter.form|crispy }}
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">
+                Search
+            </button>
+        </div>
+    </form>
+    {% for ad in filter.qs %}
+        <div class="card pl-5 pt-3 pb-3" style="width: 50rem;">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card-block">
+                <div class="article-metadata pb-2">
+                    <img class="rounded-circle article-img" src="{{ ad.adOwner.profile.image.url }}">
+                    <a class="mr-2" href="{% url 'user-ads' ad.adOwner.username %}">{{ ad.adOwner }}</a>
+                    <small class="text-muted">{{ ad.datePosted|date:"F d, Y" }}</small>
+                </div>
+                <div class="pt-4">
+                    <h2><a class="article-title" href="{% url 'ad-detail' ad.id %}">{{ ad.manufacturer}} {{ ad.model }}</a></h2>
+                    <h5 class="article-content">Price: {{ ad.price }}</h5>
+                    <h5 class="article-content">Production year: {{ ad.productionYear }}</h5>
+                    <h5 class="article-content">Contact number: {{ ad.contactNumber }}</h5>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 pl-3">
+              <div>
+                <img class="img-fluid pt-1 pr-3" alt="Responsive image" src="{{ ad.image.url }}">
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <br>
+    {% endfor %}
+{% endblock content %}

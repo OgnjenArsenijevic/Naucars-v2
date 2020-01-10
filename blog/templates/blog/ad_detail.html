@@ -1,0 +1,40 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+    <div class="card pl-5 pt-3 pb-3" style="width: 50rem;">
+      <div class="row">
+        <div class="col-md-11">
+          <div class="card-block">
+            <div class="article-metadata pb-2">
+                <img class="rounded-circle article-img" src="{{ object.adOwner.profile.image.url }}">
+                <a class="mr-2" href="{% url 'user-ads' object.adOwner.username %}">{{ object.adOwner }}</a>
+                <small class="text-muted">{{ object.datePosted|date:"F d, Y" }}</small>
+                {% if object.adOwner == user %}
+                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'ad-update' object.id %}">Update</a>
+                    <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'ad-delete' object.id %}">Delete</a>
+                {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+          <div class="col-md-6 pt-4">
+              <div class="card-block">
+                <h2 class="article-title">{{ object.manufacturer}} {{ object.model }}</h2>
+                <h5 class="article-content">Price: {{ object.price }}</h5>
+                <h5 class="article-content">Production year: {{ object.productionYear }}</h5>
+                <h5 class="article-content">Kilometers: {{ object.kilometers }}</h5>
+                <h5 class="article-content">Color: {{ object.color }}</h5>
+                <h5 class="article-content">kW: {{ object.kW }}</h5>
+                <h5 class="article-content">cm3: {{ object.cm3 }}</h5>
+                <h5 class="article-content">Contact number: {{ object.contactNumber }}</h5>
+              </div>
+          </div>
+          <div class="col-md-6 pl-1">
+          <div>
+            <img class="img-fluid pt-1 pr-3" alt="Responsive image" src="{{ ad.image.url }}">
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock content %}
+
